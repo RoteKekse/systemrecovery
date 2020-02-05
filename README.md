@@ -3,7 +3,7 @@ This is the code concerning the above mentioned paper.
 The project is structured as follows
 - README.md - this file
 - LICENSE   - license file
-- scripts   - jupyter notebooks in python 3 and R to generate the plots
+- scripts   - jupyter notebooks in ```python 3``` and ```R``` to generate the plots
 
 In scripts we have the file ```helpers.py``` containing all sorts of helper functions concerning for the performed experiments. Furthermore, we have the 4 jupyter notebooks:
 - ```FPUT_salsa_model_a.ipynb``` performing the SALSA simulation for Figure 5 in the paper
@@ -39,3 +39,5 @@ print(len(index))
 print(data_noo_nos)
 ```
 - Lastly, we have a loop calling the algorithms for the specific pairs of dimensions and number of observations run times.
+
+Then we have the notebook ```AnalyseData.ipynb``` which analyses the results of the four simulation types above and creates tables which can directly be used for the R plots Figure 5,6,7 and the Table 1 in the paper. Finally, the R plots for the three plots in the paper are stored in ```scripts/plots```.
