@@ -5,11 +5,11 @@ The project is structured as follows
 - LICENSE   - license file
 - scripts   - jupyter notebooks in ```python 3``` and ```R``` to generate the plots
 
-In scripts we have the file ```helpers.py``` containing all sorts of helper functions concerning for the performed experiments. Furthermore, we have the 4 jupyter notebooks:
-- ```FPUT_salsa_model_a.ipynb``` performing the SALSA simulation for Figure 5 in the paper
-- ```FPTU_rals_model_b.ipynb``` performing the regularized ALS simulation for Figure 5 in the paper
-- ```RANDOM_rals_model_b.ipynb``` performing the regularized ALS simulation for Figure 6 in the paper
-- ```RANDOM_FPTU_MEAN_rals_model_b.ipynb``` performing the regularized ALS simulation for Figure 7 in the paper
+In scripts we have the file [```helpers.py```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/helpers.py) containing all sorts of helper functions concerning the performed experiments. Furthermore, we have the 4 jupyter notebooks:
+- [```FPUT_salsa_model_a.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/FPUT_salsa_model_a.ipynb) performing the SALSA simulation for Figure 5 in the paper
+- [```FPTU_rals_model_b.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/FPTU_rals_model_b.ipynb) performing the regularized ALS simulation for Figure 5 in the paper
+- [```RANDOM_rals_model_b.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/RANDOM_rals_model_b.ipynb) performing the regularized ALS simulation for Figure 6 in the paper
+- [```RANDOM_FPTU_MEAN_rals_model_b.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/RANDOM_FPTU_MEAN_rals_model_b.ipynb) performing the regularized ALS simulation for Figure 7 in the paper
 
 All these notebooks are organized as follows:
 - First we load different libraries.  With the exception of [xerus](https://libxerus.org) all libraries are standard. We use ```numpy```, ```xerus```, ```matplotlib``` and ```pandas```.
@@ -40,4 +40,4 @@ print(data_noo_nos)
 ```
 - Lastly, we have a loop calling the algorithms for the specific pairs of dimensions and number of observations run times.
 
-Then we have the notebook ```AnalyseData.ipynb``` which analyses the results of the four simulation types above and creates tables which can directly be used for the R plots Figure 5,6,7 and the Table 1 in the paper. Finally, the R plots for the three plots in the paper are stored in ```scripts/plots```.
+Then we have the notebook [```AnalyseData.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/AnalyseData.ipynb) which analyses the results of the four simulation types above and creates tables which can directly be used for the R plots Figure 5,6,7 and the Table 1 in the paper. Finally, the R plots for the three plots in the paper are stored in [```scripts/plots```](https://github.com/anonymous-paper-2020/systemrecovery/tree/master/scripts/plots).
