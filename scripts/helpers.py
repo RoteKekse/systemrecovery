@@ -575,7 +575,7 @@ def run_als(noo,nos,C1,C2list,Alist,C1ex,Y,max_iter,lam):
             
             mem = pos
         #end of iteration
-        #lam = 1e-6*error
+        #lam = lam/10
         lam =np.max([np.min([0.1*error/C1.frob_norm(),lam/4]),1e-14])
         diff = C1ex-C1
         tmp1 = xerus.Tensor()
