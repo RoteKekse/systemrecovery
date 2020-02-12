@@ -178,7 +178,82 @@ def build_choice_tensor2(noo):
     C2list.append(tmp)
 
     return C2list
-        
+
+def construct_exact_fermit_pasta_single_TT(noo,p,beta):
+    """Creates exact solution in single TT format for the Fermi Pasta problems in the monomials basis,
+    for other basis functions this needs to be transformed!
+    Parameters
+    ----------
+    noo: int
+        number of dimensions
+    p: int
+        number of basis functions
+    beta: float
+        coefficient of the fermit pasta equation
+    Returns
+    -------
+    Solution: xerus TTOperator
+        Exact soulution of FPTU problem in monomials basis functions
+    """
+    dim = [p for i in range(0,noo)]
+    dim.append(noo)
+    Solution = xerus.TTTensor(dim)
+
+    tmp = xerus.Tensor([1,4,4*noo])
+    for eq in range(noo):
+        tmp[0,0,4*eq] = 1
+    tmp[0,0,0] = 0
+    tmp[0,1,0] = -2 
+    tmp[0,3,0] = -2*beta
+    tmp[0,0,1] = 1
+    tmp[0,2,1] = 3*beta
+    tmp[0,1,2] = -3*beta
+    tmp[0,0,3] = beta
+
+    tmp[0,0,4] = 1
+    tmp[0,1,5] = 1
+    tmp[0,2,6] = 1
+    tmp[0,3,7] = 1
+    Solution.set_component(0,tmp)
+
+
+    for comp in range(1,Solution.order()-1):
+        tmp = xerus.Tensor([4*noo,4,4*noo])
+        for eq in range(noo):
+            tmp[4*eq,0,4*eq] = 1
+        if (comp+1)*4 < 4*noo:
+            tmp[4*(comp+1),0,4*(comp+1)] = 1
+            tmp[4*(comp+1),1,4*(comp+1)+1] = 1
+            tmp[4*(comp+1),2,4*(comp+1)+2] = 1
+            tmp[4*(comp+1),3,4*(comp+1)+3] = 1
+
+        tmp[4*comp,0,4*comp] = 0
+        tmp[4*comp,1,4*comp] = -2 
+        tmp[4*comp,3,4*comp] = -2*beta
+        tmp[4*comp+1,0,4*comp] = 1       
+        tmp[4*comp+1,2,4*comp] = 3*beta
+        tmp[4*comp+2,1,4*comp] = -3*beta
+        tmp[4*comp+3,0,4*comp] = beta
+        tmp[4*comp,0,4*comp+1] = 1       
+        tmp[4*comp,2,4*comp+1] = 3*beta
+        tmp[4*comp,1,4*comp+2] = -3*beta
+        tmp[4*comp,0,4*comp+3] = beta
+
+        tmp[4*(comp-1),0,4*(comp-1)] = 1
+        tmp[4*(comp-1)+1,1,4*(comp-1)] = 1
+        tmp[4*(comp-1)+2,2,4*(comp-1)] = 1
+        tmp[4*(comp-1)+3,3,4*(comp-1)] = 1
+
+        Solution.set_component(comp,tmp)
+
+    tmp = xerus.Tensor([4*noo,noo,1])
+    for eq in range(noo):
+        tmp[4*eq,eq,0] = 1
+    Solution.set_component(Solution.order()-1,tmp)
+    Solution.round(0.0)
+    return Solution
+
+
 def construct_exact_fermit_pasta(noo,p,beta):
     """Creates exact solution in selection format for the Fermi Pasta problems in the monomials basis,
     for other basis functions this needs to be transformed!
