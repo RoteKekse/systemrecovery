@@ -44,4 +44,4 @@ Then we have the notebook [```AnalyseData.ipynb```](https://github.com/anonymous
 
 
 ## Simulation Environment
-Furthermore, we have a simulation environment where the listed notebooks should run out of the box. For this visit [SimEnv](https://anonymous.rotekekse.de), a password should have been given to you. *Please keep in mind* the computational power is limited (4x2.5Ghz) and slower than the computer used in the experiments in the paper (4x3.5Ghz). So use it only for small tests.
+Furthermore, we have a simulation environment where the listed notebooks should run out of the box. For this visit [SimEnv](https://anonymous.rotekekse.de), a password should have been given to you. **Please keep in mind** the computational power is limited (4x2.5Ghz) and slower than the computer used in the experiments in the paper (4x3.5Ghz). So use it only for small tests.
