@@ -41,3 +41,7 @@ print(data_noo_nos)
 - Lastly, we have a loop calling the algorithms for the specific pairs of dimensions and number of observations run times.
 
 Then we have the notebook [```AnalyseData.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/AnalyseData.ipynb) which analyses the results of the four simulation types above and creates tables which can directly be used for the R plots Figure 5,6,7 and the Table 1 in the paper. Finally, the R plots for the three plots in the paper are stored in [```scripts/plots```](https://github.com/anonymous-paper-2020/systemrecovery/tree/master/scripts/plots).
+
+
+## Simulation Environment
+Furthermore, we have a simulation environment where the listed notebooks should run out of the box. For this visit [SimEnv](https://anonymous.rotekekse.de), a password should have been given to you. *Please keep in mind* the computational power is limited (4x2.5Ghz) and slower than the computer used in the experiments in the paper (4x3.5Ghz). So use it only for small tests.
