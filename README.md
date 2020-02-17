@@ -5,7 +5,7 @@ The project is structured as follows
 - LICENSE   - license file
 - scripts   - jupyter notebooks in ```python 3``` and ```R``` to generate the plots
 
-In scripts we have the file [```helpers.py```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/helpers.py) containing all sorts of helper functions concerning the performed experiments. Furthermore, we have the 4 jupyter notebooks:
+In scripts we have the file [```helpers.py```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/helpers.py) containing all sorts of helper functions concerning the performed experiments. This especially means that ```helpers.py``` include ```run_salsa()``` and ```run_als()``` which are the functions performing the SALSA and regualrized ALS simulations. Furthermore, we have the 4 jupyter notebooks:
 - [```FPUT_salsa_model_a.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/FPUT_salsa_model_a.ipynb) performing the SALSA simulation for Figure 5 in the paper
 - [```FPTU_rals_model_b.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/FPTU_rals_model_b.ipynb) performing the regularized ALS simulation for Figure 5 in the paper
 - [```RANDOM_rals_model_b.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/RANDOM_rals_model_b.ipynb) performing the regularized ALS simulation for Figure 6 in the paper
