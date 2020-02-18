@@ -38,7 +38,7 @@ df = pd.DataFrame(np.zeros([len(tuples),max_iter]), index=index)
 print(len(index))
 print(data_noo_nos)
 ```
-- Lastly, we have a loop calling the algorithms for the specific pairs of dimensions and number of observations run times.
+- Lastly, we have a loop calling the algorithms for the specific pairs of dimensions and number of observations ```runs``` times.
 
 Then we have the notebook [```AnalyseData.ipynb```](https://github.com/anonymous-paper-2020/systemrecovery/blob/master/scripts/AnalyseData.ipynb) which analyses the results of the four simulation types above and creates tables which can directly be used for the R plots Figure 5,6,7 and the Table 1 in the paper. Finally, the R plots for the three plots in the paper are stored in [```scripts/plots```](https://github.com/anonymous-paper-2020/systemrecovery/tree/master/scripts/plots).
 
