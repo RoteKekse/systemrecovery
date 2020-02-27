@@ -1,4 +1,9 @@
 # Tensor Network Approaches for Learning Non-Linear Dynamical Laws - Code
+
+By A. Goeßmann§, M. Götte§, I. Roth‡, R. Sweke‡, G. Kutyniok§, and J. Eisert‡  
+§ Institute of Mathematics, Technische Universität Berlin, Germany  
+‡ Dahlem Center for Complex Quantum Systems, Freie Universität Berlin, Germany
+
 This is the code concerning the above mentioned paper.
 The project is structured as follows
 - README.md - this file
