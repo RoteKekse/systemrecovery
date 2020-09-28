@@ -99,7 +99,7 @@ def random_data_selection(Alist,C1ex,C2list,noo,nos):
         t2 = C2list[i]
         t3 = Alist[i]
         tmp1(i1,i2,i3,i4) <<  t3(k1,i2)* t1(i1,k1,k2,i4)* t2(k2,i3)
-        tmp1np = tmp1.to_ndarray()
+        tmp1np = np.array(tmp1)
         l = np.einsum('mid,imdj->mjd',l,tmp1np)
     return np.einsum('mid,mid->dm',l,r)
 
@@ -489,7 +489,7 @@ def run_als(noo,nos,C1,C2list,Alist,C1ex,Y,max_iter,lam):
         t1 = diff.get_component(i)
         t2 = C2list[i]
         tmp1(i1,i2,i3,j1,j2,j3) <<  t2(k1,i3) * t1(i1,k2,k1,j1) * t1(i2,k2,k3,j2)* t2(k3,j3)
-        tmp1np = tmp1.to_ndarray()
+        tmp1np = np.array(tmp1)
         l = np.einsum('dije,ijdkle->dkle',l,tmp1np) 
     lr = np.sqrt(np.einsum('ijkl,ijkl->',l,r)) / C1ex.frob_norm()
     errors = [lr]
@@ -503,10 +503,10 @@ def run_als(noo,nos,C1,C2list,Alist,C1ex,Y,max_iter,lam):
         C2_tmp = C2list[ind]
         A_tmp = Alist[ind]
         C1_tmp(i1,i2,i3,i4) << C1_tmp(i1,k1,k2,i4) * A_tmp(k1,i2) *C2_tmp(k2,i3)
-        rstacknp = rStack[-1].to_ndarray()
-        C1_tmpnp = C1_tmp.to_ndarray()
+        rstacknp = np.array(rStack[-1])
+        C1_tmpnp = np.array(C1_tmp)
         rstacknpres = np.einsum('imdj,djm->dim',C1_tmpnp,rstacknp)  
-        rStack.append(xerus.Tensor.from_ndarray(rstacknpres))
+        rStack.append(xerus.Tensor.from_buffer(rstacknpres))
     
     forward = True
     mem = -1
@@ -518,26 +518,25 @@ def run_als(noo,nos,C1,C2list,Alist,C1ex,Y,max_iter,lam):
             rhs = xerus.Tensor()
             C2i = C2list[pos]
             Ai = Alist[pos]
-            Ainp = Ai.to_ndarray()
-            C2inp = C2i.to_ndarray()
+            Ainp = np.array(Ai)
+            C2inp = np.array(C2i)
 
 
-            lStacknp = lStack[-1].to_ndarray()
-            rStacknp = rStack[-1].to_ndarray()
+            lStacknp = np.array(lStack[-1])
+            rStacknp = np.array(rStack[-1])
 
 
             op_pre_np = np.einsum('dim,pm,sd,djm->ipsjmd',lStacknp,Ainp,C2inp,rStacknp)
-            op_pre = xerus.Tensor.from_ndarray(op_pre_np)
+            op_pre = xerus.Tensor.from_buffer(op_pre_np)
 
 
             op(i1,i2,i3,i4,j1,j2,j3,j4) << op_pre(i1,i2,i3,i4,k1,k2) * op_pre(j1,j2,j3,j4,k1,k2)
-            
+
             rhs(i1,i2,i3,i4) <<  op_pre(i1,i2,i3,i4,k1,k2) * Y(k2,k1)
-            op += lam * xerus.Tensor.identity(op.dimensions)
+            op += float(lam) * xerus.Tensor.identity(op.dimensions)
 
-            op_arr = op.to_ndarray()
-            rhs_arr = rhs.to_ndarray()
-
+            op_arr = np.array(op)
+            rhs_arr = np.array(rhs)
             op_dim = op.dimensions
             op_arr_reshape = op_arr.reshape((op_dim[0] * op_dim[1] * op_dim[2] * op_dim[3], op_dim[4]*op_dim[5]*op_dim[6]*op_dim[7]))
             rhs_dim = rhs.dimensions
@@ -545,7 +544,7 @@ def run_als(noo,nos,C1,C2list,Alist,C1ex,Y,max_iter,lam):
             sol_arr = np.linalg.solve(op_arr_reshape,rhs_arr_reshape)
 
             sol_arr_reshape = sol_arr.reshape((op.dimensions[0] , op.dimensions[1] , op.dimensions[2],op.dimensions[3]))
-            sol = xerus.Tensor.from_ndarray(sol_arr_reshape)
+            sol = xerus.Tensor.from_buffer(sol_arr_reshape)
             C1.set_component(pos,sol)
 
             Ax = xerus.Tensor()
@@ -559,19 +558,19 @@ def run_als(noo,nos,C1,C2list,Alist,C1ex,Y,max_iter,lam):
                 C1_tmp = C1.get_component(pos)
                 rStack = rStack[:-1]
                 C1_tmp(i1,i2,i3,i4) << C1_tmp(i1,k1,k2,i4) * Ai(k1,i2) *C2i(k2,i3)
-                lstacknp = lStack[-1].to_ndarray()
-                C1_tmpnp = C1_tmp.to_ndarray()
+                lstacknp = np.array(lStack[-1])
+                C1_tmpnp = np.array(C1_tmp)
                 lstacknpres = np.einsum('dim,imdj->djm',lstacknp,C1_tmpnp)  
-                lStack.append(xerus.Tensor.from_ndarray(lstacknpres))
+                lStack.append(xerus.Tensor.from_buffer(lstacknpres))
             if not forward and pos > 0:
                 C1.move_core(pos-1,True) 
                 C1_tmp = C1.get_component(pos)
                 lStack = lStack[:-1]
                 C1_tmp(i1,i2,i3,i4) << C1_tmp(i1,k1,k2,i4) * Ai(k1,i2) *C2i(k2,i3)
-                rstacknp = rStack[-1].to_ndarray()
-                C1_tmpnp = C1_tmp.to_ndarray()
+                rstacknp = np.array(rStack[-1])
+                C1_tmpnp = np.array(C1_tmp)
                 rstacknpres = np.einsum('imdj,djm->dim',C1_tmpnp,rstacknp)  
-                rStack.append(xerus.Tensor.from_ndarray(rstacknpres))  
+                rStack.append(xerus.Tensor.from_buffer(rstacknpres))  
             
             mem = pos
         #end of iteration
@@ -585,9 +584,11 @@ def run_als(noo,nos,C1,C2list,Alist,C1ex,Y,max_iter,lam):
             t1 = diff.get_component(i)
             t2 = C2list[i]
             tmp1(i1,i2,i3,j1,j2,j3) <<  t2(k1,i3) * t1(i1,k2,k1,j1) * t1(i2,k2,k3,j2)* t2(k3,j3)
-            tmp1np = tmp1.to_ndarray()
+            tmp1np = np.array(tmp1)
             l = np.einsum('dije,ijdkle->dkle',l,tmp1np) 
         lr = np.sqrt(np.einsum('ijkl,ijkl->',l,r)) / C1ex.frob_norm()
+        np.set_printoptions(precision=4)
+
         print("Iteration " + str(it) + ' Error: ' + str(lr) + " Residual: " + str(error) + " Norm: " + str(C1.frob_norm())+ " Lambda: " + str(lam))
         
         errors.append(lr)      
@@ -706,10 +707,10 @@ def update_components_salsa(G,noo,d, Alist, nos, Y,smin, w, kminor,adapt,mR,maxr
         G_tmp = G.get_component(ind)
         A_tmp = Alist[ind]
         G_tmp(i1,i2,i3) << G_tmp(i1,k1,i3) * A_tmp(k1,i2) 
-        rstacknp = rStack[-1].to_ndarray()
-        G_tmpnp = G_tmp.to_ndarray()
+        rstacknp = np.array(rStack[-1])
+        G_tmpnp = np.array(G_tmp)
         rstacknpres = np.einsum('jmk,kms->jms',G_tmpnp,rstacknp)  
-        rStack.append(xerus.Tensor.from_ndarray(rstacknpres))
+        rStack.append(xerus.Tensor.from_buffer(rstacknpres))
     
     #loop over each component from left to right
     for mu in range(0,d):
@@ -761,10 +762,10 @@ def update_components_salsa(G,noo,d, Alist, nos, Y,smin, w, kminor,adapt,mR,maxr
             G_tmp = G.get_component(mu-1)
             A_tmp = Alist[mu-1]
             G_tmp(i1,i2,i3) << G_tmp(i1,k1,i3) * A_tmp(k1,i2) 
-            lstacknp = lStack[-1].to_ndarray()
-            G_tmpnp = G_tmp.to_ndarray()       
+            lstacknp = np.array(lStack[-1])
+            G_tmpnp = np.array(G_tmp)       
             lstacknpres = np.einsum('jm,jmk->km',lstacknp,G_tmpnp)
-            lStack.append(xerus.Tensor.from_ndarray(lstacknpres))
+            lStack.append(xerus.Tensor.from_buffer(lstacknpres))
             rStack = rStack[:-1]
 
         op = xerus.Tensor()
@@ -774,11 +775,11 @@ def update_components_salsa(G,noo,d, Alist, nos, Y,smin, w, kminor,adapt,mR,maxr
         Gi = G.get_component(mu)
         if mu != d-1:
             Ai = Alist[mu]
-            Ainp = Ai.to_ndarray()
-            lStacknp = lStack[-1].to_ndarray()
-            rStacknp = rStack[-1].to_ndarray()
+            Ainp = np.array(Ai)
+            lStacknp = np.array(lStack[-1])
+            rStacknp = np.array(rStack[-1])
             op_pre_np = np.einsum('im,jm,kms->ijkms',lStacknp,Ainp,rStacknp)        
-            op_pre = xerus.Tensor.from_ndarray(op_pre_np)
+            op_pre = xerus.Tensor.from_buffer(op_pre_np)
             op(i1,i2,i3,j1,j2,j3) << op_pre(i1,i2,i3,k1,k2) * op_pre(j1,j2,j3,k1,k2)
             rhs(i1,i2,i3) <<  op_pre(i1,i2,i3,k1,k2) * Y(k2,k1)
         else:
@@ -807,9 +808,9 @@ def update_components_salsa(G,noo,d, Alist, nos, Y,smin, w, kminor,adapt,mR,maxr
 
        
 
-        op_arr = op.to_ndarray()
-        rhs_arr = rhs.to_ndarray()
-        gi_arr = Gi.to_ndarray()
+        op_arr = np.array(op)
+        rhs_arr = np.array(rhs)
+        gi_arr = np.array(Gi)
    
         op_dim = op.dimensions
         op_arr_reshape = op_arr.reshape((op_dim[0] * op_dim[1] * op_dim[2], op_dim[3]*op_dim[4]*op_dim[5]))
@@ -824,7 +825,7 @@ def update_components_salsa(G,noo,d, Alist, nos, Y,smin, w, kminor,adapt,mR,maxr
 
         
         sol_arr_reshape = sol_arr.reshape((gi_dim[0], gi_dim[1], gi_dim[2]))
-        sol = xerus.Tensor.from_ndarray(sol_arr_reshape)
+        sol = xerus.Tensor.from_from(sol_arr_reshape)
         G.set_component(mu,sol)
         
 
